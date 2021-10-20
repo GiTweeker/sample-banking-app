@@ -9,6 +9,7 @@ package banking;
 public class Transaction {
 	private Long accountNumber;
 	private Bank bank;
+	private int attemptedPin;
 
 	/**
 	 *
@@ -23,19 +24,27 @@ public class Transaction {
 	 */
 	public Transaction(Bank bank, Long accountNumber, int attemptedPin) throws Exception {
 		// complete the function
+		this.bank = bank;
+		this.accountNumber = accountNumber;
+		boolean authenticated  = this.bank.authenticateUser(accountNumber,attemptedPin);
+		if(!authenticated){
+			throw new Exception(String.format("Account holder with account number %s provide wrong pin",accountNumber));
+		}
+
 	}
 
 	public double getBalance() {
 		// complete the function
-        return -1;
+        return bank.getBalance(this.accountNumber);
 	}
 
 	public void credit(double amount) {
 		// complete the function
+		 bank.credit(this.accountNumber,amount);
 	}
 
 	public boolean debit(double amount) {
 		// complete the function
-        return true;
+		return bank.debit(this.accountNumber,amount);
 	}
 }

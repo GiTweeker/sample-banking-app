@@ -2,6 +2,7 @@ package banking;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Account implementation for commercial (business) customers.<br><br>
@@ -9,10 +10,13 @@ import java.util.List;
  * Private Variables:<br>
  * {@link #authorizedUsers}: List&lt;Person&gt;<br>
  */
-public class CommercialAccount  {
+public class CommercialAccount extends Account {
 	private List<Person> authorizedUsers;
 
 	public CommercialAccount(Company company, Long accountNumber, int pin, double startingDeposit) {
+		//AccountHolder accountHolder, Long accountNumber, int pin, double startingDeposit
+
+		super(company,accountNumber,pin,startingDeposit);
 		// complete the function
 	}
 
@@ -21,6 +25,10 @@ public class CommercialAccount  {
 	 */
 	protected void addAuthorizedUser(Person person) {
 		// complete the function
+		if(authorizedUsers == null){
+			authorizedUsers = new ArrayList<>();
+		}
+		authorizedUsers.add(person);
 	}
 
 	/**
@@ -29,6 +37,6 @@ public class CommercialAccount  {
 	 */
 	public boolean isAuthorizedUser(Person person) {
 		// complete the function
-        return true;
+        return !(authorizedUsers.stream().filter(person1 -> person.getIdNumber() == person.getIdNumber()).count() == 0);
 	}
 }
